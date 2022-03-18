@@ -29,8 +29,8 @@ public class EditorialController {
     @GetMapping("")
     public String formulario(Model modelo) {
         Editorial editorial = new Editorial();
-        modelo.addAttribute("autor", editorial);
-        return "autor-formulario";
+        modelo.addAttribute("editorial", editorial);
+        return "editorial-formulario";
     }
 
     @PostMapping("/save")
@@ -39,21 +39,45 @@ public class EditorialController {
         try {
 
             editorialServicio.ingresarEditorial(nombre);
-            modelo.addAttribute("autor", editorial);
-            return "autor-formulario";
+            modelo.addAttribute("editorial", editorial);
+            return "editorial-formulario";
         } catch (Exception ex) {
             ex.printStackTrace();
-            modelo.addAttribute("autor", editorial);
+            modelo.addAttribute("editorial", editorial);
             modelo.addAttribute("error", ex.getMessage());
-            return "autor-formulario";
+            return "editorial-formulario";
         }
     }
 
-    @GetMapping("/list")
-    public List<Editorial> listAll(Model modelo) {
+    @GetMapping("/lista-editoriales")
+    public String listAll(Model modelo) {
 
-        return editorialServicio.obtener();
+        List<Editorial> listaEditoriales = editorialServicio.obtenerAlta();
+        modelo.addAttribute("listaEditoriales", listaEditoriales);
+        return "lista-editoriales";
 
+    }
+    
+    @GetMapping("/dar-de-baja")
+    public String darDeBaja(@RequestParam("editorialId") String editorialId){
+        try {
+            editorialServicio.deshabilitar(editorialId);
+            return "redirect:/editorial/lista-editoriales";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/editorial/lista-editoriales";
+        }
+    }
+    
+    @PostMapping("/modificar")
+    public String modificar(@RequestParam("editorialId") String edtorialId, @RequestParam("editorialNombre") String editorialNombre){
+        try {
+            editorialServicio.modificarEditorial(edtorialId, editorialNombre);
+            return "redirect:/editorial/lista-editoriales";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/editorial/lista-editoriales";
+        }
     }
     
 }

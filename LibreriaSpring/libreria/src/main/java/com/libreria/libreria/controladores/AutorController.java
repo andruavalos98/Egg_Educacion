@@ -72,7 +72,7 @@ public class AutorController {
 
     }
     
-        @PutMapping("/modificar")
+        @PostMapping("/modificar")
         public String modificar(@RequestParam("autorId") String autorId, Model modelo, @RequestParam("autorNombre") String autorNombre){
             try {
             autorServicio.modificarAutor(autorId, autorNombre);

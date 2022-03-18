@@ -40,11 +40,14 @@ public class AutorServicio {
         validar(nombre);
 
         Optional<Autor> respuesta = autorRepositorio.findById(id);
+        Autor autor = new Autor();
         if (respuesta.isPresent()) {
-            Autor autor = respuesta.get();
             
+            autor = respuesta.get();
             
+            autor.setId(id);
             autor.setNombre(nombre);
+            autor.setAlta(true);
 
             autorRepositorio.save(autor);
         } else {
@@ -57,25 +60,24 @@ public class AutorServicio {
         Optional<Autor> respuesta = autorRepositorio.findById(id);
 //        Optional<Autor> respuest = autorRepositorio.findById(nombre);
 
-        if(respuesta.isPresent()){
+        if (respuesta.isPresent()) {
             Autor autor = respuesta.get();
-            
+
             autor.setAlta(false);
-            
+
             autorRepositorio.save(autor);
         } else {
             throw new ErrorServicio("No se encontró un autor con ese nombre");
         }
 
     }
-    
+
 //    public List<Autor> obtener (){
 //        
 //        return autorRepositorio.findAll();
 //    }
-    
-     public List<Autor> obtenerAlta (){
-        
+    public List<Autor> obtenerAlta() {
+
         return autorRepositorio.buscarAlta();
     }
 

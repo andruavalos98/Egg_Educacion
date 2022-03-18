@@ -40,14 +40,17 @@ public class EditorialServicio {
         validar(nombre);
 
         Optional<Editorial> respuesta = editorialRepositorio.findById(id);
+      
         if (respuesta.isPresent()) {
             Editorial editorial = respuesta.get();
-
+            
+            editorial.setId(id);
             editorial.setNombre(nombre);
+            editorial.setAlta(true);
 
             editorialRepositorio.save(editorial);
         } else {
-            throw new ErrorServicio("No se encontró un autor con ese nombre");
+            throw new ErrorServicio("No se encontró una editorial con ese nombre");
         }
     }
     
@@ -60,7 +63,7 @@ public class EditorialServicio {
             
             editorialRepositorio.save(editorial);
         } else {
-            throw new ErrorServicio("No se encontró un autor con ese nombre");
+            throw new ErrorServicio("No se encontró una editorial con ese nombre");
         }
 
     }
@@ -69,10 +72,14 @@ public class EditorialServicio {
         
         return editorialRepositorio.findAll();
     }
+     
+     public List<Editorial> obtenerAlta(){
+         return editorialRepositorio.buscarAlta();
+     }
     
     public void validar(String nombre) throws ErrorServicio {
         if (nombre == null || nombre.isEmpty()) {
-            throw new ErrorServicio("El nombre del autor no puede estar vacio");
+            throw new ErrorServicio("El nombre de la editorial no puede estar vacio");
         }
     }
     
