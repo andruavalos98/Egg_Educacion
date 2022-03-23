@@ -38,6 +38,12 @@ public class UsuarioServicio implements UserDetailsService {
         if (usuario != null) {
             throw new Exception("El usuario ya existe, pruebe otro nombre");
         }
+        if(password.isEmpty()){
+            throw new Exception("La contraseña no puede estar vacia");
+        }
+        if(password2.isEmpty()){
+            throw new Exception("La contraseña no puede estar vacia");
+        }
         if (!password.equals(password2)) {
             throw new Exception("Las contraseñas ingresadas deben ser iguales");
 
