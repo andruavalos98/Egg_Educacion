@@ -16,7 +16,7 @@ and open the template in the editor.
         <span th:if="${error != null}" th:text="${error}" style="color: red;"></span>
         <span th:if="${success != null}" th:text="${success}" style="color: green;"></span>
 
-        <form action="/usuario/registro" method="POST">
+        <form th:action="@{/usuario/registro}" method="POST">
             <div class="form-group">
                 <label for="exampleInputEmail1">Nombre de usuario</label>
                 <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">

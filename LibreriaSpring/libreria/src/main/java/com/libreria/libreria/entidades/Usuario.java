@@ -5,7 +5,10 @@
  */
 package com.libreria.libreria.entidades;
 
+import com.libreria.libreria.enums.Rol;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import org.hibernate.annotations.GenericGenerator;
@@ -24,6 +27,9 @@ public class Usuario {
     
     private String username;
     private String password;
+    
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
 
     public String getId() {
         return id;
@@ -48,10 +54,13 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
-     
-     
-     
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
     
 }

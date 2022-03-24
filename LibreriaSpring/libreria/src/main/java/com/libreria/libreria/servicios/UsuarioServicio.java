@@ -6,11 +6,13 @@
 package com.libreria.libreria.servicios;
 
 import com.libreria.libreria.entidades.Usuario;
+import com.libreria.libreria.enums.Rol;
 import com.libreria.libreria.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -52,6 +54,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setUsername(username);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         usuario.setPassword(encoder.encode(password));
+        usuario.setRol(Rol.USUARIO);
 
         return usuarioRepositorio.save(usuario);
 
@@ -62,7 +65,7 @@ public class UsuarioServicio implements UserDetailsService {
         try {
             Usuario usuario = usuarioRepositorio.findByUsername(username);
             List<GrantedAuthority> autoritties = new ArrayList<>();
-
+            autoritties.add(new SimpleGrantedAuthority("ROLE_" + usuario.getRol()));
             return new User(username, usuario.getPassword(), autoritties);
         } catch (Exception e) {
             throw new UsernameNotFoundException("El usuario no existe");
