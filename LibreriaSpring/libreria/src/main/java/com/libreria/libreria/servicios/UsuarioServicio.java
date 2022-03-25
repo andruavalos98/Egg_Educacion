@@ -59,6 +59,10 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.save(usuario);
 
     }
+    
+    public List<Usuario> findAll (){
+        return usuarioRepositorio.findAll();
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

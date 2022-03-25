@@ -7,7 +7,9 @@ package com.libreria.libreria.controladores;
 
 import com.libreria.libreria.entidades.Usuario;
 import com.libreria.libreria.servicios.UsuarioServicio;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +33,7 @@ public class UsuarioController {
         modelo.addAttribute("username", "");
         modelo.addAttribute("password", "");
         modelo.addAttribute("password2", "");
-        return "usuario-formulario";
+        return "login";
     }
 
     @PostMapping("/registro")
@@ -52,6 +54,14 @@ public class UsuarioController {
             modelo.addAttribute("error", ex.getMessage());
             return "usuario-formulario";
         }
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRADOR')")
+    @GetMapping("/lista")
+    public String listaUsuarios(Model modelo){
+        List<Usuario> listaUsuarios = usuarioServicio.findAll();
+        modelo.addAttribute("usuarios", listaUsuarios);
+        return "lista-usuarios";
     }
 
 }

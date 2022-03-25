@@ -14,12 +14,18 @@ and open the template in the editor.
     </head>
     <body>
         
+        <p sec:authorize="isAuthenticated()">Logged user: <span sec:authentication = "name"> </span></p>
+        
         <a href="/editorial/lista-editoriales" class="btn btn-info">Lista de editoriales</a>
         <a href="/autor/lista-autores" class="btn btn-info">Lista de autores</a> 
 
-        <form th:action="@{/logout}" method="POST">
+        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="POST">
             <input type="submit" value="Log Out" class="btn btn-info">
         </form>
+        
+        <p sec:authorize="!isAuthenticated()">
+            <a th:href="@{/login}" class="btn btn-info">Ingresa</a>
+        </p>
 
     </body>
 </html>
