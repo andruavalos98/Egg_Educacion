@@ -33,7 +33,7 @@ public class UsuarioController {
         modelo.addAttribute("username", "");
         modelo.addAttribute("password", "");
         modelo.addAttribute("password2", "");
-        return "login";
+        return "usuario-formulario";
     }
 
     @PostMapping("/registro")
