@@ -7,8 +7,11 @@ package com.libreria.libreria.controladores;
 
 import com.libreria.libreria.entidades.Autor;
 import com.libreria.libreria.servicios.AutorServicio;
+import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +42,8 @@ public class AutorController {
     public String formularioData(@RequestParam("nombre") String nombre, Model modelo) {
         Autor autor = new Autor();
         try {
-
             autorServicio.ingresarAutor(nombre);
+            
             modelo.addAttribute("autor", autor);
             return "autor-formulario";
         } catch (Exception ex) {
@@ -71,10 +74,10 @@ public class AutorController {
         }
 
     }
-    
-        @PostMapping("/modificar")
-        public String modificar(@RequestParam("autorId") String autorId, Model modelo, @RequestParam("autorNombre") String autorNombre){
-            try {
+
+    @PostMapping("/modificar")
+    public String modificar(@RequestParam("autorId") String autorId, Model modelo, @RequestParam("autorNombre") String autorNombre) {
+        try {
             autorServicio.modificarAutor(autorId, autorNombre);
 
             return "redirect:/autor/lista-autores";
@@ -82,7 +85,6 @@ public class AutorController {
             e.printStackTrace();
             return "redirect:/autor/lista-autores";
         }
-        }
+    }
 
-    
 }
