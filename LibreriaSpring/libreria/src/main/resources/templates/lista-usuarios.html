@@ -13,6 +13,8 @@ and open the template in the editor.
     </head>
 
     <h1> Lista de Autores </h1>
+            <span th:if="${modificado != null}" th:text="${modificado}" style="color: green;"></span>
+
     <body>
 
         <table class="table">
@@ -32,7 +34,7 @@ and open the template in the editor.
                     </td>
 
                     <td th:text="${a.rol}"></td>
-                    
+
                     <td>
                         <button 
                             type="button" 
@@ -49,18 +51,32 @@ and open the template in the editor.
                                         <h5 class="modal-title" id="exampleModalLabel">Editar Usuario</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <form th:action="@{/usuario/modificar}" method="POST">
+
+                                    <form th:action="@{/usuario/registro}" method="POST">
+                                                <span th:if="${success != null}" th:text="${success}" style="color: green;"></span>
+
                                         <div class="modal-body">
-                                            <!--                        hacer un action que vaya a modificar-->
 
                                             <div class="mb-3">
                                                 <label hidden for="recipient-name" class="col-form-label"></label>
-                                                <input hidden type="text" name="usuarioId" th:value="${a.id}"  class="form-control" id="recipient-name">
+                                                <input hidden type="text" name="id" th:value="${a.id}"  class="form-control" id="recipient-name">
                                             </div>
                                             <div class="mb-3" >
                                                 <label for="message-text" class="col-form-label">Ingrese el nuevo username</label>
                                                 <input type="text" name="username" class="form-control" id="message-text" th:value="${a.username}">
                                             </div>
+
+                                            <div class="mb-3">
+                                                <label for="exampleInputPassword1">Escribe tu contraseña</label>
+                                                <input type="password" name="password" th:value="${password}" class="form-control" id="exampleInputPassword1">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleInputPassword1">Reescribe tu contraseña</label>
+                                                <input type="password" name="password2" th:value="${password2}" class="form-control" id="exampleInputPassword1">
+                                            </div>
+
+                                            <p>Sube una foto de perfil</p>
+                                            <input type="file" name="file"/>
 
                                         </div>
                                         <div class="modal-footer">

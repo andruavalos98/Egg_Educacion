@@ -38,20 +38,39 @@ public class UsuarioServicio implements UserDetailsService {
     @Autowired
     private FotoServicio fotoServicio;
 
-    public Usuario registrarUsuario(String username,
+    public Usuario registrarUsuario(String id,
+            String username,
             String password,
             String password2,
             MultipartFile file) throws Exception {
 
-        Usuario usuario = usuarioRepositorio.findByUsername(username);
-
+        System.out.println("username: " + username);
         if (username.isEmpty()) {
             throw new Exception("El username no puede estar vacio");
 
         }
+
+        Usuario usuario = usuarioRepositorio.findByUsername(username);
         if (usuario != null) {
             throw new Exception("El usuario ya existe, pruebe otro nombre");
         }
+
+        if (id != null) {
+            usuario = getIdUsuario(id);
+            if (usuario == null) {
+                throw new Exception("No se puede modificar el usuario porque no existe en la base de datos");
+            }
+        } else {
+
+            usuario = new Usuario();
+
+            usuario.setRol(Rol.USUARIO);
+
+        }
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        usuario.setPassword(encoder.encode(password));
+
         if (password.isEmpty()) {
             throw new Exception("La contraseña no puede estar vacia");
         }
@@ -62,7 +81,6 @@ public class UsuarioServicio implements UserDetailsService {
             throw new Exception("Las contraseñas ingresadas deben ser iguales");
 
         }
-        usuario = new Usuario();
 
         if (file != null) {
             Foto foto = fotoServicio.guardar(file);
@@ -70,10 +88,7 @@ public class UsuarioServicio implements UserDetailsService {
         }
 
         usuario.setUsername(username);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        usuario.setPassword(encoder.encode(password));
-        usuario.setRol(Rol.USUARIO);
-
+        System.out.println("usuario: " + usuario.toString());
         return usuarioRepositorio.save(usuario);
 
     }

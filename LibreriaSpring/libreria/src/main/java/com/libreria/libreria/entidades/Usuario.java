@@ -74,6 +74,11 @@ public class Usuario {
     public void setFoto(Foto foto) {
         this.foto = foto;
     }
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "id=" + id + ", username=" + username + '}';
+    }
     
     
     
