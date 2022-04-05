@@ -16,7 +16,7 @@ and open the template in the editor.
         <span th:if="${error != null}" th:text="${error}" style="color: red;"></span>
         <span th:if="${success != null}" th:text="${success}" style="color: green;"></span>
 
-        <form th:action="@{/usuario/registro}" method="POST">
+        <form th:action="@{/usuario/registro}" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="exampleInputEmail1">Nombre de usuario</label>
                 <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -30,10 +30,9 @@ and open the template in the editor.
                 <label for="exampleInputPassword1">Reescribe tu contraseña</label>
                 <input type="password" name="password2" th:value="${password2}" class="form-control" id="exampleInputPassword1">
             </div>
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>
+            
+            <p>Sube una foto de perfil</p>
+            <input type="file" name="file"/>
             <button type="submit" value="Registrarse" class="btn btn-primary">Registrarse</button>
         </form>
 

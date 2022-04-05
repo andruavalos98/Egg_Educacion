@@ -8,6 +8,7 @@ package com.libreria.libreria.controladores;
 import com.libreria.libreria.entidades.Usuario;
 import com.libreria.libreria.servicios.UsuarioServicio;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -39,11 +41,12 @@ public class UsuarioController {
     @PostMapping("/registro")
     public String registroUsuario(@RequestParam("username") String username,
             @RequestParam("password") String password,
-            @RequestParam("password2") String password2,
+            @RequestParam("password2") String password2, 
+            @RequestParam(name = "file", required = false) MultipartFile file,
             Model modelo) {
 
         try {
-            Usuario usuario = usuarioServicio.registrarUsuario(username, password, password2);
+            Usuario usuario = usuarioServicio.registrarUsuario(username, password, password2, file);
             modelo.addAttribute("success", "Usuario registrado con exito");
 
             return "usuario-formulario";
@@ -56,7 +59,7 @@ public class UsuarioController {
         }
     }
     
-    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRADOR')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMINISTRADOR')") 
     @GetMapping("/lista")
     public String listaUsuarios(Model modelo){
         List<Usuario> listaUsuarios = usuarioServicio.findAll();

@@ -15,6 +15,7 @@ and open the template in the editor.
     <h1> Lista de Autores </h1>
     <body>
 
+        <p th:if="${mail != null}" th:text="${mail}"></p>
         <table class="table">
             <thead>
                 <tr>
